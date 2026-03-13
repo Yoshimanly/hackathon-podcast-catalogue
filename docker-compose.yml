@@ -1,0 +1,52 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: podcast_backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      HOST: 0.0.0.0
+      PORT: 1337
+
+      APP_KEYS: "toChange1,toChange2,toChange3,toChange4"
+      API_TOKEN_SALT: "toChangeApiTokenSalt"
+      ADMIN_JWT_SECRET: "toChangeAdminJwtSecret"
+      TRANSFER_TOKEN_SALT: "toChangeTransferTokenSalt"
+      JWT_SECRET: "toChangeJwtSecret"
+      STRAPI_TELEMETRY_DISABLED: "true"
+
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: hackathon-postgres.cimepzv8htxa.eu-south-2.rds.amazonaws.com
+      DATABASE_PORT: 5432
+      DATABASE_NAME: postgres
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: IUi$$PvxQ2XaHSX>kV67?j!N83Pi.
+      DATABASE_SCHEMA: public
+      DATABASE_SSL: "true"
+      DATABASE_SSL_REJECT_UNAUTHORIZED: "false"
+    ports:
+      - "1337:1337"
+    volumes:
+      - ./backend:/opt/app
+      - /opt/app/node_modules
+      - ./backend/public/uploads:/opt/app/public/uploads
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: podcast_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_STRAPI_URL: http://localhost:1337
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
