@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_NAME: postgres
+      DATABASE_HOST: hackathon-postgres.cimepzv8htxa.eu-south-2.rds.amazonaws.com
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: IUi$$PvxQ2XaHSX>kV67?j!N83Pi.
+      NODE_ENV: development
+    ports:
+      - "1337:1337"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  db-data:
