@@ -467,27 +467,36 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiPipocaPipoca extends Struct.CollectionTypeSchema {
-  collectionName: 'pipocas';
+export interface ApiPodcastPodcast extends Struct.CollectionTypeSchema {
+  collectionName: 'podcasts';
   info: {
-    displayName: 'Pipoca';
-    pluralName: 'pipocas';
-    singularName: 'pipoca';
+    displayName: 'podcast';
+    pluralName: 'podcasts';
+    singularName: 'podcast';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
+    audio: Schema.Attribute.Media<'files' | 'audios'>;
+    category: Schema.Attribute.Enumeration<
+      ['cat1', 'cat2', 'cat3', 'cat4', 'cat5']
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    date: Schema.Attribute.DateTime;
+    description: Schema.Attribute.String;
+    image: Schema.Attribute.Media<'images' | 'files'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::pipoca.pipoca'
+      'api::podcast.podcast'
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.UID<'title'>;
+    text: Schema.Attribute.Text;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1007,7 +1016,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::pipoca.pipoca': ApiPipocaPipoca;
+      'api::podcast.podcast': ApiPodcastPodcast;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

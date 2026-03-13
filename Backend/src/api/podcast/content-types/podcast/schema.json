@@ -14,14 +14,15 @@
     "title": {
       "type": "string"
     },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
     "description": {
       "type": "string"
     },
     "text": {
       "type": "text"
-    },
-    "slug": {
-      "type": "string"
     },
     "date": {
       "type": "datetime"
